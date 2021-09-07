@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Gann Time for Intraday</title>
+ 
+    <script type="text/javascript">
+	function showData(form) {
+    		var priceVal = myform.txtprice.value;
+		var startTime = myform.txtstarttime.value;
+
+		//document.getElementById("demo").innerHTML
+		var tempval = Math.sqrt(priceVal)*180-225;
+		tempval = (tempval % 360).toFixed(2);
+		var hours = Math.floor(tempval / 60);  
+		var minutes = (tempval % 60);
+		tempval = (minutes/100)*60;
+		var dupetimeval = hours + ":" + Math.round(tempval);
+		var usertimeval = hours + ":" + Math.round(minutes);
+    		
+		document.getElementById("dupediv").innerHTML = dupetimeval;
+		document.getElementById("realdiv").innerHTML = usertimeval;
+
+		tempval = addTimes(startTime,dupetimeval)
+		document.getElementById("finaldupediv").innerHTML = tempval
+		tempval = addTimes(startTime,usertimeval)
+		document.getElementById("finalrealdiv").innerHTML = tempval	
+	}
+        
+	
+                 
+        // Convert a time in hh:mm format to minutes
+	function timeToMins(time) {
+	  var b = time.split(':');
+	  return b[0]*60 + +b[1];
+	}
+
+	// Convert minutes to a time in format hh:mm
+	// Returned value is in range 00  to 24 hrs
+	function timeFromMins(mins) {
+	  function z(n){return (n<10? '0':'') + n;}
+	  var h = (mins/60 |0) % 24;
+	  var m = mins % 60;
+	  return z(h) + ':' + z(m);
+	}
+
+	// Add two times in hh:mm format
+	function addTimes(t0,t1) {
+	  return timeFromMins(timeToMins(t0) + timeToMins(t1));
+	  
+	}
+
+       
+         //console.log(time_convert(71));
+    </script>
+</head>
+<body>
+ 
+<form name="myform" action="" method="get">
+    <table border="1">
+       <tr>
+          <td>Enter Start time:</td>
+          <td><input type="text" name="txtstarttime" value="9:00"></td>
+       </tr>
+       <tr>
+          <td>Enter Price of the Stock:</td>
+          <td><input type="text" name="txtprice" value=""></td>
+       </tr> 
+	<tr>
+		<td  colspan="2" align = "center">
+			<input type="button" name="button" value="Calculate" onclick="showData(this.form)">
+		</td>
+	</tr>
+    </table> 
+    <br><br>
+    <table border="1">
+       <tr>
+          <td>dupe Time:</td><td><div id = "dupediv"/></td>
+          <td>Real Time:</td><td><div id = "realdiv"/></td>
+       </tr>
+	
+        <tr>
+          <td>Final dupe Time:</td><td><div id = "finaldupediv"/></td>
+          <td>Final Real Time:</td><td><div id = "finalrealdiv"/></td>
+       </tr>
+    </table>
+    
+</form>
+ 
+</body>
+</html>
