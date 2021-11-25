@@ -1,92 +1,272 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Gann Time for Intraday</title>
- 
+
     <script type="text/javascript">
-	function showData(form) {
-    		var priceVal = myform.txtprice.value;
-		var startTime = myform.txtstarttime.value;
+        function showData(form) {
+            var priceVal = myform.txtprice.value;
+            var startTime = myform.txtstarttime.value;
 
-		//document.getElementById("demo").innerHTML
-		var tempval = Math.sqrt(priceVal)*180-225;
-		tempval = (tempval % 360).toFixed(2);
-		var hours = Math.floor(tempval / 60);  
-		var minutes = (tempval % 60);
-		tempval = (minutes/100)*60;
-		var dupetimeval = hours + ":" + Math.round(tempval);
-		var usertimeval = hours + ":" + Math.round(minutes);
-    		
-		document.getElementById("dupediv").innerHTML = dupetimeval;
-		document.getElementById("realdiv").innerHTML = usertimeval;
+            //document.getElementById("demo").innerHTML
+            var tempval = Math.sqrt(priceVal) * 180 - 225;
+            tempval = (tempval % 360).toFixed(2);
+            var hours = Math.floor(tempval / 60);
+            var minutes = (tempval % 60);
+            tempval = (minutes / 100) * 60;
+            var dupetimeval = hours + ":" + Math.round(tempval);
+            var usertimeval = hours + ":" + Math.round(minutes);
 
-		tempval = addTimes(startTime,dupetimeval)
-		document.getElementById("finaldupediv").innerHTML = tempval
-		tempval = addTimes(startTime,usertimeval)
-		document.getElementById("finalrealdiv").innerHTML = tempval	
-	}
-        
-	
-                 
+            document.getElementById("dupediv").innerHTML = dupetimeval;
+            document.getElementById("realdiv").innerHTML = usertimeval;
+
+            tempval = addTimes(startTime, dupetimeval)
+            document.getElementById("finaldupediv").innerHTML = tempval
+            tempval = addTimes(startTime, usertimeval)
+            document.getElementById("finalrealdiv").innerHTML = tempval
+        }
+
+
+
         // Convert a time in hh:mm format to minutes
-	function timeToMins(time) {
-	  var b = time.split(':');
-	  return b[0]*60 + +b[1];
-	}
+        function timeToMins(time) {
+            var b = time.split(':');
+            return b[0] * 60 + +b[1];
+        }
 
-	// Convert minutes to a time in format hh:mm
-	// Returned value is in range 00  to 24 hrs
-	function timeFromMins(mins) {
-	  function z(n){return (n<10? '0':'') + n;}
-	  var h = (mins/60 |0) % 24;
-	  var m = mins % 60;
-	  return z(h) + ':' + z(m);
-	}
+        // Convert minutes to a time in format hh:mm
+        // Returned value is in range 00  to 24 hrs
+        function timeFromMins(mins) {
+            function z(n) { return (n < 10 ? '0' : '') + n; }
+            var h = (mins / 60 | 0) % 24;
+            var m = mins % 60;
+            return z(h) + ':' + z(m);
+        }
 
-	// Add two times in hh:mm format
-	function addTimes(t0,t1) {
-	  return timeFromMins(timeToMins(t0) + timeToMins(t1));
-	  
-	}
+        // Add two times in hh:mm format
+        function addTimes(t0, t1) {
+            return timeFromMins(timeToMins(t0) + timeToMins(t1));
 
-       
+        }
+
+        /*         txthighVal
+        txtLowVal
+        
+        longEntdiv
+        longTgtdiv
+        longTgtptdiv
+        longSldiv
+        longSlptdiv
+        
+        shortEntdiv
+        shortTgtdiv
+        shortTgtptdiv
+        shortSldiv
+        shortSlptdiv 
+        
+        var tempval = Math.sqrt(priceVal) * 180 - 225;
+            tempval = (tempval % 360).toFixed(2);
+        */
+        function loadHighLow(tempForm) {
+            const highVal = parseFloat(tempForm.txthighVal.value);
+            const lowVal = parseFloat(tempForm.txtLowVal.value);
+
+            let tempIntermediate = (highVal - lowVal) * 0.1;
+
+            let longEntVal = highVal + tempIntermediate;  //(highVal + 0.15).toFixed(2);
+            let shortEntVal = lowVal - tempIntermediate;  //(lowVal - 0.15).toFixed(2);
+
+            let diffVal = longEntVal - shortEntVal;
+
+            let longSlval = longEntVal - diffVal;
+            let shortSlval = shortEntVal + diffVal;
+
+            let longSlptVal = longEntVal - longSlval;
+            let shortSlptVal = shortSlval - shortEntVal;
+
+            let longTgtVal = (longEntVal + 2 * longSlptVal);
+            let shortTgtVal = (shortEntVal - 2 * shortSlptVal);
+
+            let longTgtptVal = longTgtVal-longEntVal;
+            let shortTgtptVal = shortEntVal-shortTgtVal;
+            
+            document.getElementById("longEntdiv").innerHTML = longEntVal.toFixed(2);
+            document.getElementById("shortEntdiv").innerHTML = shortEntVal.toFixed(2);
+
+            document.getElementById("longSldiv").innerHTML = longSlval.toFixed(2);
+            document.getElementById("shortSldiv").innerHTML = shortSlval.toFixed(2);
+
+            document.getElementById("longSlptdiv").innerHTML = longSlptVal.toFixed(2);
+            document.getElementById("shortSlptdiv").innerHTML = shortSlptVal.toFixed(2);
+
+            document.getElementById("longTgtdiv").innerHTML = longTgtVal.toFixed(2);
+            document.getElementById("shortTgtdiv").innerHTML = shortTgtVal.toFixed(2);
+
+            document.getElementById("longTgtptdiv").innerHTML = longTgtptVal.toFixed(2);
+            document.getElementById("shortTgtptdiv").innerHTML = shortTgtptVal.toFixed(2);
+
+        }
          //console.log(time_convert(71));
     </script>
 </head>
+
 <body>
- 
-<form name="myform" action="" method="get">
-    <table border="1">
-       <tr>
-          <td>Enter Start time:</td>
-          <td><input type="text" name="txtstarttime" value="9:00"></td>
-       </tr>
-       <tr>
-          <td>Enter Price of the Stock:</td>
-          <td><input type="text" name="txtprice" value=""></td>
-       </tr> 
-	<tr>
-		<td  colspan="2" align = "center">
-			<input type="button" name="button" value="Calculate" onclick="showData(this.form)">
-		</td>
-	</tr>
-    </table> 
-    <br><br>
-    <table border="1">
-       <tr>
-          <td>dupe Time:</td><td><div id = "dupediv"/></td>
-          <td>Real Time:</td><td><div id = "realdiv"/></td>
-       </tr>
-	
+    <table>
         <tr>
-          <td>Final dupe Time:</td><td><div id = "finaldupediv"/></td>
-          <td>Final Real Time:</td><td><div id = "finalrealdiv"/></td>
-       </tr>
+            <td>
+                <form name="myform" action="" method="get">
+                    <table border="1">
+                        <tr>
+                            <td>Enter Start time:</td>
+                            <td><input type="text" name="txtstarttime" value="9:00"></td>
+                        </tr>
+                        <tr>
+                            <td>Enter Price of the Stock:</td>
+                            <td><input type="text" name="txtprice" value=""></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="button" name="button" value="Calculate" onclick="showData(this.form)">
+                            </td>
+                        </tr>
+                    </table>
+                    <br><br>
+                    <table border="1">
+                        <tr>
+                            <td>dupe Time:</td>
+                            <td>
+                                <div id="dupediv" />
+                            </td>
+                            <td>Real Time:</td>
+                            <td>
+                                <div id="realdiv" />
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Final dupe Time:</td>
+                            <td>
+                                <div id="finaldupediv" />
+                            </td>
+                            <td>Final Real Time:</td>
+                            <td>
+                                <div id="finalrealdiv" />
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </td>
+            <td>
+                <h1>MULLANGI POORVIK SRINIVAS</h1>
+            </td>
+            <td></td>
+            <td>
+                <form name="hlform" action="" method="get">
+                    <table border="1">
+                        <tr>
+                            <td>Enter High Value:</td>
+                            <td><input type="text" name="txthighVal" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Enter Low Value:</td>
+                            <td><input type="text" name="txtLowVal" value=""></td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" align="center">
+                                <input type="button" name="button" value="Calculate" onclick="loadHighLow(this.form)">
+                            </td>
+                        </tr>
+                    </table>
+                    <br><br>
+
+                    <table border="1">
+                        <tr>
+                            <td>
+                                <table border="1">
+                                    <tr>
+                                        <td rowspan="5">
+                                            <h1>LONG&nbsp;</h1>
+                                        </td>
+                                        <td>Long Entry:</td>
+                                        <td>
+                                            <div id="longEntdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Long Target:</td>
+                                        <td>
+                                            <div id="longTgtdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Long Tg Pt:</td>
+                                        <td>
+                                            <div id="longTgtptdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Long SL:</td>
+                                        <td>
+                                            <div id="longSldiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Long SL Pt:</td>
+                                        <td>
+                                            <div id="longSlptdiv" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table border="1">
+                                    <tr>
+                                        <td rowspan="5">
+                                            <h1>SHORT</h1>
+                                        </td>
+                                        <td>Short Entry:</td>
+                                        <td>
+                                            <div id="shortEntdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Short Target:</td>
+                                        <td>
+                                            <div id="shortTgtdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Short Tg Pt:</td>
+                                        <td>
+                                            <div id="shortTgtptdiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Short SL:</td>
+                                        <td>
+                                            <div id="shortSldiv" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Short SL Pt:</td>
+                                        <td>
+                                            <div id="shortSlptdiv" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+
+                </form>
+            </td>
+        </tr>
     </table>
-    
-</form>
- 
 </body>
+
 </html>
