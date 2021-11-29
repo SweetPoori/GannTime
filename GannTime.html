@@ -23,12 +23,10 @@
             document.getElementById("realdiv").innerHTML = usertimeval;
 
             tempval = addTimes(startTime, dupetimeval)
-            document.getElementById("finaldupediv").innerHTML = tempval
+            document.getElementById("finaldupediv").innerHTML = tempval;
             tempval = addTimes(startTime, usertimeval)
-            document.getElementById("finalrealdiv").innerHTML = tempval
+            document.getElementById("finalrealdiv").innerHTML = tempval;
         }
-
-
 
         // Convert a time in hh:mm format to minutes
         function timeToMins(time) {
@@ -51,24 +49,16 @@
 
         }
 
-        /*         txthighVal
-        txtLowVal
-        
-        longEntdiv
-        longTgtdiv
-        longTgtptdiv
-        longSldiv
-        longSlptdiv
-        
-        shortEntdiv
-        shortTgtdiv
-        shortTgtptdiv
-        shortSldiv
-        shortSlptdiv 
-        
-        var tempval = Math.sqrt(priceVal) * 180 - 225;
-            tempval = (tempval % 360).toFixed(2);
-        */
+        function decimal_value_round(value, step) {
+            step || (step = 1.0);
+            var inv = 1.0 / step;
+            var final = Math.round(value * inv) / inv;
+            return final.toFixed(2);
+        }
+
+        function my_final_value(value) {
+            return decimal_value_round(value, 0.05);
+        }
         function loadHighLow(tempForm) {
             const highVal = parseFloat(tempForm.txthighVal.value);
             const lowVal = parseFloat(tempForm.txtLowVal.value);
@@ -89,23 +79,23 @@
             let longTgtVal = (longEntVal + 2 * longSlptVal);
             let shortTgtVal = (shortEntVal - 2 * shortSlptVal);
 
-            let longTgtptVal = longTgtVal-longEntVal;
-            let shortTgtptVal = shortEntVal-shortTgtVal;
-            
-            document.getElementById("longEntdiv").innerHTML = longEntVal.toFixed(2);
-            document.getElementById("shortEntdiv").innerHTML = shortEntVal.toFixed(2);
+            let longTgtptVal = longTgtVal - longEntVal;
+            let shortTgtptVal = shortEntVal - shortTgtVal;
 
-            document.getElementById("longSldiv").innerHTML = longSlval.toFixed(2);
-            document.getElementById("shortSldiv").innerHTML = shortSlval.toFixed(2);
+            document.getElementById("longEntdiv").innerHTML = my_final_value(longEntVal);
+            document.getElementById("shortEntdiv").innerHTML = my_final_value(shortEntVal);
 
-            document.getElementById("longSlptdiv").innerHTML = longSlptVal.toFixed(2);
-            document.getElementById("shortSlptdiv").innerHTML = shortSlptVal.toFixed(2);
+            document.getElementById("longSldiv").innerHTML = my_final_value(longSlval);
+            document.getElementById("shortSldiv").innerHTML = my_final_value(shortSlval);
 
-            document.getElementById("longTgtdiv").innerHTML = longTgtVal.toFixed(2);
-            document.getElementById("shortTgtdiv").innerHTML = shortTgtVal.toFixed(2);
+            document.getElementById("longSlptdiv").innerHTML = my_final_value(longSlptVal);
+            document.getElementById("shortSlptdiv").innerHTML = my_final_value(shortSlptVal);
 
-            document.getElementById("longTgtptdiv").innerHTML = longTgtptVal.toFixed(2);
-            document.getElementById("shortTgtptdiv").innerHTML = shortTgtptVal.toFixed(2);
+            document.getElementById("longTgtdiv").innerHTML = my_final_value(longTgtVal);
+            document.getElementById("shortTgtdiv").innerHTML = my_final_value(shortTgtVal);
+
+            document.getElementById("longTgtptdiv").innerHTML = my_final_value(longTgtptVal);
+            document.getElementById("shortTgtptdiv").innerHTML = my_final_value(shortTgtptVal);
 
         }
          //console.log(time_convert(71));
@@ -190,31 +180,31 @@
                                         <td rowspan="5">
                                             <h1>LONG&nbsp;</h1>
                                         </td>
-                                        <td>Long Entry:</td>
+                                        <td>Long Entry:&nbsp;</td>
                                         <td>
                                             <div id="longEntdiv" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Long Target:</td>
+                                        <td>Long Target:&nbsp;</td>
                                         <td>
                                             <div id="longTgtdiv" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Long Tg Pt:</td>
+                                        <td>Long Tg Pt:&nbsp;</td>
                                         <td>
                                             <div id="longTgtptdiv" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Long SL:</td>
+                                        <td>Long SL:&nbsp;</td>
                                         <td>
                                             <div id="longSldiv" />
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Long SL Pt:</td>
+                                        <td>Long SL Pt:&nbsp;</td>
                                         <td>
                                             <div id="longSlptdiv" />
                                         </td>
