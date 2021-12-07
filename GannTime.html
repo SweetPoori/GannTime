@@ -98,6 +98,13 @@
             document.getElementById("shortTgtptdiv").innerHTML = my_final_value(shortTgtptVal);
 
         }
+
+        function Calulate_next_date(myform) {
+            let temp_val = new Date(document.getElementById("selected_date").value);
+            temp_val.setDate(temp_val.getDate() + 3);
+            temp_val = temp_val.toJSON().slice(0, 10).split('-').reverse().join('/');
+            document.getElementById("result").value = temp_val;
+        }
          //console.log(time_convert(71));
     </script>
 </head>
@@ -105,7 +112,7 @@
 <body>
     <table>
         <tr>
-            <td>
+            <td width=500>
                 <form name="myform" action="" method="get">
                     <table border="1">
                         <tr>
@@ -149,8 +156,29 @@
 
                 </form>
             </td>
-            <td>
-                <h1>MULLANGI POORVIK SRINIVAS</h1>
+            <td width=500>
+                <h1>Calculate Next Date</h1>
+                <form name="dateform" action="" method="get"></form>
+                <table border="1">
+                    <tr>
+                        <td>Select Date:</label></td>
+                        <td><input type="date" id="selected_date" name="selected_date"></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2 align="center"><input type="button" value="Calculate Date"
+                                onclick="Calulate_next_date(this.form)"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"> </td>
+                    </tr>
+                    <tr>
+                        <td colspan=2 align="center">Next date is :: <input type="text" id="result" value="" )</td>
+                    </tr>
+
+                </table>
+
+                </form>
+
             </td>
             <td></td>
             <td>
