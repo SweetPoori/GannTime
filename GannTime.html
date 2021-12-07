@@ -101,7 +101,7 @@
 
         function Calulate_next_date(myform) {
             let temp_val = new Date(document.getElementById("selected_date").value);
-            temp_val.setDate(temp_val.getDate() + 3);
+            temp_val.setDate(temp_val.getDate() + 361);
             temp_val = temp_val.toJSON().slice(0, 10).split('-').reverse().join('/');
             document.getElementById("result").value = temp_val;
         }
