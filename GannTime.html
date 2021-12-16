@@ -59,11 +59,48 @@
         function my_final_value(value) {
             return decimal_value_round(value, 0.05);
         }
+
+        function get_radio_percent() {
+            let return_val = 0;
+            if (document.getElementById('10P').checked) {
+                return_val = parseFloat(document.getElementById('10P').value);
+            }
+            else if (document.getElementById('20P').checked) {
+                return_val = parseFloat(document.getElementById('20P').value);
+            }
+            else if (document.getElementById('30P').checked) {
+                return_val = parseFloat(document.getElementById('30P').value);
+            }
+            else if (document.getElementById('40P').checked) {
+                return_val = parseFloat(document.getElementById('40P').value);
+            }
+            //alert(return_val);
+            return return_val;
+        }
+
+        function get_radio_target() {
+            let return_val = 0;
+            if (document.getElementById('1X').checked) {
+                return_val = parseInt(document.getElementById('1X').value);
+            }
+            else if (document.getElementById('2X').checked) {
+                return_val = parseInt(document.getElementById('2X').value);
+            }
+            else if (document.getElementById('3X').checked) {
+                return_val = parseInt(document.getElementById('3X').value);
+            }
+            else if (document.getElementById('4X').checked) {
+                return_val = parseInt(document.getElementById('4X').value);
+            }
+            //alert(return_val);
+            return return_val;
+        }
+
         function loadHighLow(tempForm) {
             const highVal = parseFloat(tempForm.txthighVal.value);
             const lowVal = parseFloat(tempForm.txtLowVal.value);
 
-            let tempIntermediate = (highVal - lowVal) * 0.2;
+            let tempIntermediate = (highVal - lowVal) * get_radio_percent();
 
             let longEntVal = highVal + tempIntermediate;  //(highVal + 0.15).toFixed(2);
             let shortEntVal = lowVal - tempIntermediate;  //(lowVal - 0.15).toFixed(2);
@@ -76,27 +113,45 @@
             let longSlptVal = longEntVal - longSlval;
             let shortSlptVal = shortSlval - shortEntVal;
 
-            let longTgtVal = (longEntVal + 3 * longSlptVal);
-            let shortTgtVal = (shortEntVal - 3 * shortSlptVal);
+            let longTgtVal = (longEntVal + get_radio_target() * longSlptVal);
+            let shortTgtVal = (shortEntVal - get_radio_target() * shortSlptVal);
 
             let longTgtptVal = longTgtVal - longEntVal;
             let shortTgtptVal = shortEntVal - shortTgtVal;
+            if (document.getElementById('crude').checked) {
 
-            document.getElementById("longEntdiv").innerHTML = my_final_value(longEntVal);
-            document.getElementById("shortEntdiv").innerHTML = my_final_value(shortEntVal);
+                document.getElementById("longEntdiv").innerHTML = Math.round(longEntVal);
+                document.getElementById("shortEntdiv").innerHTML = Math.round(shortEntVal);
 
-            document.getElementById("longSldiv").innerHTML = my_final_value(longSlval);
-            document.getElementById("shortSldiv").innerHTML = my_final_value(shortSlval);
+                document.getElementById("longSldiv").innerHTML = Math.round(longSlval);
+                document.getElementById("shortSldiv").innerHTML = Math.round(shortSlval);
 
-            document.getElementById("longSlptdiv").innerHTML = my_final_value(longSlptVal);
-            document.getElementById("shortSlptdiv").innerHTML = my_final_value(shortSlptVal);
+                document.getElementById("longSlptdiv").innerHTML = Math.round(longSlptVal);
+                document.getElementById("shortSlptdiv").innerHTML = Math.round(shortSlptVal);
 
-            document.getElementById("longTgtdiv").innerHTML = my_final_value(longTgtVal);
-            document.getElementById("shortTgtdiv").innerHTML = my_final_value(shortTgtVal);
+                document.getElementById("longTgtdiv").innerHTML = Math.round(longTgtVal);
+                document.getElementById("shortTgtdiv").innerHTML = Math.round(shortTgtVal);
 
-            document.getElementById("longTgtptdiv").innerHTML = my_final_value(longTgtptVal);
-            document.getElementById("shortTgtptdiv").innerHTML = my_final_value(shortTgtptVal);
+                document.getElementById("longTgtptdiv").innerHTML = Math.round(longTgtptVal);
+                document.getElementById("shortTgtptdiv").innerHTML = Math.round(shortTgtptVal);
+            }
+            else {
 
+                document.getElementById("longEntdiv").innerHTML = my_final_value(longEntVal);
+                document.getElementById("shortEntdiv").innerHTML = my_final_value(shortEntVal);
+
+                document.getElementById("longSldiv").innerHTML = my_final_value(longSlval);
+                document.getElementById("shortSldiv").innerHTML = my_final_value(shortSlval);
+
+                document.getElementById("longSlptdiv").innerHTML = my_final_value(longSlptVal);
+                document.getElementById("shortSlptdiv").innerHTML = my_final_value(shortSlptVal);
+
+                document.getElementById("longTgtdiv").innerHTML = my_final_value(longTgtVal);
+                document.getElementById("shortTgtdiv").innerHTML = my_final_value(shortTgtVal);
+
+                document.getElementById("longTgtptdiv").innerHTML = my_final_value(longTgtptVal);
+                document.getElementById("shortTgtptdiv").innerHTML = my_final_value(shortTgtptVal);
+            }
         }
 
         function Calulate_next_date(myform) {
@@ -191,6 +246,43 @@
                         <tr>
                             <td>Enter Low Value:</td>
                             <td><input type="text" name="txtLowVal" value=""></td>
+                        </tr>
+                        <tr>
+                            <td>Scrip Type:</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" name="Scrip" id="crude" value="crude" checked>Crude</td>
+                                        <td><input type="radio" name="Scrip" id="other" value="other">Other</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Select SL %:</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" name="percentage" id="10P" value="0.1">10</td>
+                                        <td><input type="radio" name="percentage" id="20P" value="0.2" checked>20</td>
+                                        <td><input type="radio" name="percentage" id="30P" value="0.3">30</td>
+                                        <td><input type="radio" name="percentage" id="40P" value="0.4">40</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Select Target:</td>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td><input type="radio" name="target" id="1X" value="1">1X</td>
+                                        <td><input type="radio" name="target" id="2X" value="2" checked>2X</td>
+                                        <td><input type="radio" name="target" id="3X" value="3">3X</td>
+                                        <td><input type="radio" name="target" id="4X" value="4">4X</td>
+                                    </tr>
+                                </table>
+                            </td>
                         </tr>
                         <tr>
                             <td colspan="2" align="center">
