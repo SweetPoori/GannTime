@@ -83,14 +83,14 @@
 
         function get_radio_target() {
             let return_val = 0;
-            if (document.getElementById('1X').checked) {
-                return_val = parseInt(document.getElementById('1X').value);
-            }
-            else if (document.getElementById('1.5X').checked) {
+            if (document.getElementById('1.5X').checked) {
                 return_val = parseInt(document.getElementById('1.5X').value);
             }
             else if (document.getElementById('2X').checked) {
                 return_val = parseInt(document.getElementById('2X').value);
+            }
+            else if (document.getElementById('2.5X').checked) {
+                return_val = parseInt(document.getElementById('2.5X').value);
             }
             else if (document.getElementById('3X').checked) {
                 return_val = parseInt(document.getElementById('3X').value);
@@ -253,9 +253,10 @@
                             <td>
                                 <table>
                                     <tr>
-                                        <td><input type="radio" name="target" id="1X" value="1">1X</td>
-                                        <td><input type="radio" name="target" id="1.5X" value="1.5" checked>1.5X</td>
+                                        
+                                        <td><input type="radio" name="target" id="1.5X" value="1.5">1.5X</td>
                                         <td><input type="radio" name="target" id="2X" value="2">2X</td>
+                                        <td><input type="radio" name="target" id="2.5X" value="2.5" checked>2.5X</td>
                                         <td><input type="radio" name="target" id="3X" value="3">3X</td>
                                         
                                     </tr>
